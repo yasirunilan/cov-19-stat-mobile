@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 
 
 class HospitalizationDetailsScreen extends React.Component {
@@ -17,14 +17,14 @@ class HospitalizationDetailsScreen extends React.Component {
     rowRenderer = (item) => {
         return (
             <View>
-                <Text style={{fontSize: 18, fontWeight: 'bold'}}>Hospital: {item.item.hospital.name_si} - {item.item.treatment_total}</Text>
+                <Text style={styles.listItem}>Hospital: {item.item.hospital.name_si} - {item.item.treatment_total}</Text>
             </View>
         )
     }
 
     render() {
         return (
-            <View style={{margin: 40}}>
+            <View style={styles.container}>
                 <FlatList data={this.props.route.params.data} renderItem={this.rowRenderer} keyExtractor={item => item.id}/>
             </View>
 
@@ -34,3 +34,12 @@ class HospitalizationDetailsScreen extends React.Component {
 }
 
 export default HospitalizationDetailsScreen;
+const styles = StyleSheet.create({
+    container:{
+        margin: 40
+    },
+    listItem: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    }
+})

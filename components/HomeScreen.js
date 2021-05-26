@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import * as Linking from 'expo-linking';
 import StatisticComponent from "./StatisticComponent";
 
@@ -26,15 +26,15 @@ class HomeScreen extends React.Component {
 
     render() {
         return (
-            <View style={{margin: 40}}>
-                <View style={{alignItems: 'center'}}>
-                    <View style={{alignContent: 'center'}}>
-                        <Text style={{fontSize: 30,fontWeight: 'bold'}}>Covid-19 Statistics</Text>
+            <View style={styles.container}>
+                <View style={styles.headerCard}>
+                    <View style={styles.titleCard}>
+                        <Text style={styles.titleText}>Covid-19 Statistics</Text>
                     </View>
-                    <View style={{paddingTop: 10}}>
+                    <View style={styles.sourceCard}>
                         <Text>Data Source: <Text onClick={()=> {
                             Linking.openURL('https://www.hpb.health.gov.lk');
-                        }} style={{color: 'blue'}}>Health Promotion Bureau</Text></Text>
+                        }} style={styles.linkText}>Health Promotion Bureau</Text></Text>
                     </View>
                     <Text>Last Updated: {this.state.data.update_date_time}</Text>
 
@@ -97,3 +97,25 @@ class HomeScreen extends React.Component {
 }
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        margin: 40
+    },
+    headerCard: {
+        alignItems: 'center'
+    },
+    titleCard: {
+        alignContent: 'center'
+    },
+    titleText: {
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    sourceCard: {
+        paddingTop: 10
+    },
+    linkText:{
+        color: 'blue'
+    }
+})
