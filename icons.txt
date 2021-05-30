@@ -1,0 +1,6 @@
+Total Patients - human
+Total PCR Count - account-search
+Total In Hospitals - hospital-building
+Deaths - human-wheelchair
+Total New Cases - calendar-today
+Total Recovered - arrow-top-right
