@@ -1,4 +1,34 @@
-## Welcome to GitHub Pages
+## Setting Up the Project
+
+### Install Expo
+Follow this guide on [Expo Installation](https://docs.expo.io/get-started/installation/) and set up the environment accordingly.
+
+
+### Create the App
+Run the following command to create the app
+```shell
+#Create a project name covidStats.Select the "blank" template when prompted
+expo init covidStats
+
+#Navigate to the project directory
+cd covidStats
+```
+
+### Running the App
+```shell
+expo start
+```
+
+
+### Modifying the App
+
+1) Create the "components" folder.
+2) Create HomeScreen.js Component.
+
+
+
+
+
 
 You can use the [editor on GitHub](https://github.com/yasirunilan/cov-19-stat-mobile/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
