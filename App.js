@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import HomeScreen from "./components/HomeScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PCRTestingScreen from "./components/PCRTestingScreen";
 import HospitalizationDetailsScreen from "./components/HospitalizationDetailsScreen";
+
 const App = () => {
     const Stack = createStackNavigator();
   return (

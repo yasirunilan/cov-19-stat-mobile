@@ -12,16 +12,11 @@ class HomeScreen extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.getHealthData();
-    }
-
-    getHealthData = async () => {
+    async componentDidMount() {
         let response = await fetch(`https://www.hpb.health.gov.lk/api/get-current-statistical`);
         let jsonResponse = await response.json();
         let healthData = jsonResponse.data;
         this.setState({data: healthData})
-        console.log(healthData)
     }
 
     render() {

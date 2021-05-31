@@ -1,17 +1,17 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 const StatisticComponent = (props) => {
     return (
         <TouchableOpacity
-            style={[styles.container]}
+            style={[styles.statCardContainer]}
             onPress={()=> {
                     props.onClickCallback();
                 }
             }
         >
             <View style={[styles.containerContent]}>
-                <Text style={[styles.titleText]}>{props.title}</Text>
+                <Text style={[styles.statCardTitleText]}>{props.title}</Text>
                 <View style={styles.detailContent}>
                     <View style={[styles.iconContainer]}>
                         <MaterialCommunityIcons name={props.icon} size={props.size? props.size: 45} color={props.color} />
@@ -27,7 +27,7 @@ const StatisticComponent = (props) => {
 export default StatisticComponent;
 
 const styles = StyleSheet.create({
-    container: {
+    statCardContainer: {
         backgroundColor: 'white',
         borderRadius: 5,
         marginTop: 20,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     containerContent: {
         alignItems: 'center'
     },
-    titleText: {
+    statCardTitleText: {
         fontSize: 20
     },
     detailContent: {
