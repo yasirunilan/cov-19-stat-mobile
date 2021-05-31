@@ -49,8 +49,9 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+```
 
-
+```javascript
 //HomeScreen.js
 
 import React from 'react';
@@ -311,8 +312,8 @@ const styles = StyleSheet.create({
         color: 'blue'
     }
 })
-
-
+```
+```javascript
 //StatisticComponent.js
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
@@ -366,9 +367,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     }
 })
-
-
 ```
+
+
 5) Add All Components
 
 ```javascript
@@ -492,43 +493,174 @@ const styles = StyleSheet.create({
 
 6) Adding Navigation
 
+```javascript
+//App.js
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import HomeScreen from "./components/HomeScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import PCRTestingScreen from "./components/PCRTestingScreen";
+import HospitalizationDetailsScreen from "./components/HospitalizationDetailsScreen";
 
+const App = () => {
+    const Stack = createStackNavigator();
+  return (
+      <SafeAreaView style={styles.container}>
+          <NavigationContainer>
+              <Stack.Navigator screenOptions={{
+                  headerShown: false
+              }}>
+                  <Stack.Screen name="Home" component={HomeScreen}/>
+                  <Stack.Screen name="PCRTesting" component={PCRTestingScreen} />
+                  <Stack.Screen name="HospitalizationDetails" component={HospitalizationDetailsScreen} />
+              </Stack.Navigator>
+          </NavigationContainer>
+          <StatusBar/>
+      </SafeAreaView>
+  );
+}
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+      backgroundColor: '#dedbdb'
+  },
+});
 
-
-
-You can use the [editor on GitHub](https://github.com/yasirunilan/cov-19-stat-mobile/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+export default App;
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```javascript
+//HomeScreen.js
 
-### Jekyll Themes
+import React from 'react';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import * as Linking from 'expo-linking';
+import StatisticComponent from "./StatisticComponent";
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/yasirunilan/cov-19-stat-mobile/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+class HomeScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        }
+    }
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+    async componentDidMount() {
+        let response = await fetch(`https://www.hpb.health.gov.lk/api/get-current-statistical`);
+        let jsonResponse = await response.json();
+        let healthData = jsonResponse.data;
+        this.setState({data: healthData})
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.headerCard}>
+                    <View style={styles.titleCard}>
+                        <Text style={styles.titleText}>Covid-19 Statistics</Text>
+                    </View>
+                    <View style={styles.sourceCard}>
+                        <Text>Data Source: <Text onClick={()=> {
+                            Linking.openURL('https://www.hpb.health.gov.lk');
+                        }} style={styles.linkText}>Health Promotion Bureau</Text></Text>
+                    </View>
+                    <Text>Last Updated: {this.state.data.update_date_time}</Text>
+
+                </View>
+                <ScrollView>
+                    <StatisticComponent
+                        title={'Total Patients'}
+                        count={this.state.data.local_total_cases}
+                        icon={'human'}
+                        color={'green'}
+                        onClickCallback={()=> {}}
+                    />
+                    <StatisticComponent
+                        title={'Total PCR Count'}
+                        count={this.state.data.total_pcr_testing_count}
+                        icon={'account-search'}
+                        color={'green'}
+                        onClickCallback={()=> {}}
+                    />
+                    <StatisticComponent
+                        title={'Total In Hospitals'}
+                        count={this.state.data.local_total_number_of_individuals_in_hospitals}
+                        icon={'hospital-building'}
+                        color={'orange'}
+                        onClickCallback={()=> {
+                            this.props.navigation.navigate('HospitalizationDetails', {data: this.state.data.hospital_data})
+                        }}
+                    />
+                    <StatisticComponent
+                        title={'Deaths'}
+                        count={this.state.data.local_deaths}
+                        icon={'human-wheelchair'}
+                        color={'red'}
+                        onClickCallback={()=> {}}
+                    />
+                    <StatisticComponent
+                        title={'Total New Cases'}
+                        count={this.state.data.local_new_cases}
+                        icon={'calendar-today'}
+                        color={'green'}
+                        onClickCallback={()=> {}}
+                    />
+                    <StatisticComponent
+                        title={'Total Recovered'}
+                        count={this.state.data.local_recovered}
+                        icon={'arrow-top-right'}
+                        color={'green'}
+                        onClickCallback={()=> {}}
+                    />
+
+                </ScrollView>
+
+            </View>
+
+        );
+    }
+
+}
+
+export default HomeScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        margin: 40
+    },
+    headerCard: {
+        alignItems: 'center'
+    },
+    titleCard: {
+        alignContent: 'center'
+    },
+    titleText: {
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    sourceCard: {
+        paddingTop: 10
+    },
+    linkText:{
+        color: 'blue'
+    }
+})
+
+```
+
+7) Building the app
+```bash
+//android
+expo build:android
+
+or
+expo build:android -t apk
+
+//ios
+expo build:ios
+```
+
